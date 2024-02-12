@@ -5,7 +5,7 @@ import 'package:basketapp/screens/drh_screen.dart';
 import 'package:basketapp/screens/home_screen.dart';
 import 'package:basketapp/screens/welcome_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
   runApp(MyApp());
@@ -55,8 +55,8 @@ class _PassingScreenState extends State<PassingScreen>
             fontSize: 18,
           ),
         ),
-        backgroundColor: Color(
-            0xFF57CCE6), // Set the background color here color: Color(0xFF57CCE6)
+        backgroundColor: Color.fromARGB(255, 66, 176,
+            201), // Set the background color here color: Color(0xFF57CCE6)
         iconTheme: IconThemeData(color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -94,14 +94,14 @@ class _PassingScreenState extends State<PassingScreen>
               ],
               labelPadding: EdgeInsets.symmetric(horizontal: 1),
               indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
-              indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 5,
-              labelColor: Colors.blue,
+              labelColor: Colors.blue[800],
               unselectedLabelColor: Colors.grey[600],
               labelStyle: TextStyle(
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
+              indicatorColor: Colors.blue[400],
             ),
           ),
           SizedBox(height: 30),
@@ -118,7 +118,7 @@ class _PassingScreenState extends State<PassingScreen>
         ],
       ),
       bottomNavigationBar: Container(
-        color: Color(0xFF57CCE6),
+        color: Color.fromARGB(255, 66, 176, 201),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -225,18 +225,16 @@ class PBLScreen extends StatefulWidget {
 class _PBLScreenState extends State<PBLScreen> {
   TextEditingController _questionController2 = TextEditingController();
 
-  YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'RcPefSjVlfg', // Replace with your video ID
-    flags: YoutubePlayerFlags(
-      autoPlay: false,
-      mute: false,
-      forceHD: false,
-    ),
-  );
+  late WebViewController _webViewController;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -249,13 +247,12 @@ class _PBLScreenState extends State<PBLScreen> {
           child: Text(
             'Chest Pass merupakan salah satu dari jenis passing dalam permainan bola basket. Berikut adalah informasi terkait chest pass yang terdiri dari tahapan, analisis biomekanika dan video praktek chest pass:',
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               color: Colors.grey[800],
             ),
             textAlign: TextAlign.justify,
           ),
         ),
-        SizedBox(height: 40),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 30),
           child: Theme(
@@ -267,9 +264,9 @@ class _PBLScreenState extends State<PBLScreen> {
               title: Text(
                 'Tahapan',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
-                ),
+                    fontSize: 14,
+                    color: Colors.blue[800],
+                    fontWeight: FontWeight.bold),
               ),
               children: [
                 Container(
@@ -284,7 +281,7 @@ class _PBLScreenState extends State<PBLScreen> {
                     '6) Bersamaan dengan mendorong bola langkahkan kaki terkuat kedepan untuk menambah daya dorong tangan dan pindahkan berat badan kedepan.\n'
                     '7) Arah lemparan setinggi dada penerima, pandangan mata fokus pada penerima bola.\n',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.grey[800],
                     ),
                   ),
@@ -304,20 +301,20 @@ class _PBLScreenState extends State<PBLScreen> {
               title: Text(
                 'Video Pelaksanaan',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
-                ),
+                    fontSize: 14,
+                    color: Colors.blue[800],
+                    fontWeight: FontWeight.bold),
               ),
               children: [
                 //  Content for the second expansion tile
-                SizedBox(height: 30),
+                SizedBox(height: 10),
                 Container(
                   margin: EdgeInsets.symmetric(
                       horizontal: 20), // Adjust the horizontal margin as needed
                   child: Text(
                     'Silahkan putar video di bawah ini untuk membantu Anda memahami praktek chest pass dalam permainan bola basket.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.grey[800],
                     ),
                     textAlign: TextAlign.justify,
@@ -327,23 +324,53 @@ class _PBLScreenState extends State<PBLScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: SizedBox(
-                    width: 250,
-                    child: YoutubePlayer(
-                      controller: YoutubePlayerController(
-                        initialVideoId:
-                            'RcPefSjVlfg', // Replace with your video ID
-                        flags: YoutubePlayerFlags(
-                          autoPlay: false,
-                          mute: false,
-                        ),
-                      ),
-                      showVideoProgressIndicator: true,
-                      progressIndicatorColor: Colors.blueAccent,
+                    height: 160,
+                    width: 300,
+                    child: WebView(
+                      initialUrl:
+                          'https://www.youtube.com/embed/wxKr_O92wi4?playsinline=1',
+                      javascriptMode: JavascriptMode.unrestricted,
+                      onPageFinished: (url) {
+                        _webViewController.evaluateJavascript('''
+    // Hide controls except play, indicator, and progress bar
+    var controls = document.querySelector(".ytp-chrome-bottom");
+    if (controls != null) controls.style.display = "none";
+
+    var topBar = document.querySelector(".ytp-chrome-top");
+    if (topBar != null) topBar.style.display = "none";
+
+    var progressBar = document.querySelector(".ytp-progress-bar-container");
+    if (progressBar != null) progressBar.style.display = "block";
+
+    var logo = document.querySelector(".ytp-watermark");
+    if (logo != null) logo.style.display = "none"; // Hide YouTube logo
+
+    var fullscreenButton = document.querySelector(".ytp-fullscreen-button");
+    if (fullscreenButton != null) fullscreenButton.style.display = "none"; // Hide fullscreen button
+  ''');
+                      },
+                      onWebViewCreated: (controller) {
+                        _webViewController = controller;
+                      },
                     ),
                   ),
                 ),
-
-                SizedBox(height: 20),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    // Open video in fullscreen mode
+                    launchYoutubeVideoInApp();
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Color.fromRGBO(21, 101, 192, 1),
+                    ),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                  ),
+                  child: Text('Buka Fullscreen Video'),
+                ),
+                SizedBox(height: 10),
               ],
             ),
           ),
@@ -359,8 +386,9 @@ class _PBLScreenState extends State<PBLScreen> {
               title: Text(
                 'Analisis Biomekanika',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
+                  fontSize: 14,
+                  color: Colors.blue[800],
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               children: [
@@ -377,7 +405,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Pada gambar diatas menjelaskan bahwa telah berlaku Hukum Newton I, pelaksanaan fase awalan gerak passing overhead pass lengan membentuk sudut 900 dan kaki menekuk membentuk sudut 1270, pada posisi tersebut melakukan fase awalan untuk melakukan persiapan gerakan selanjutnya. Kenapa harus mempunya sudut-sudut diatas karena dapat diketahui bahwa hasil analisis gerak kinetik yang ditinjau dari aspek biomekanik yakni sudut lengan, sudut tubuh dan sudut kaki secara langsung menyiapkan posisi kuda-kuda kaki dan memposisikan lengan tangan untuk menstabilkan ruang pergelangan tangan dan jari-jari agar tetap rileks, saat melakukan fase awalan adanya fleksi ekstrimitas atas dilakukan agar beban pada sendi mengurang dengan cara memperpendek lengan torsi. Sangat penting melakukan fleksi bagian ekstrimitas atas guna meningkatkan pembebanan kaki. Beban lebih ditingkatkan pada tubuh bagian bawah untuk mendekati pusat gravitasi. Posisi ini akan berguna untuk persiapan transfer gaya yang bekerja tetap linear dan vertikal sehingga gerakan menjadi optimal dan diterima dibagian fase gerakan selanjutnya.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.grey[800],
                         ),
                         textAlign: TextAlign.justify,
@@ -390,7 +418,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Pada gambar diatas menjelaskan bahwa pelaksanaan fase selanjutnya gerak passing chest pass batang tubuh flexi membentuk besaran sudut 1750, dan kaki tumpuan menekuk membentuk sudut 1370, dan kaki belakang membentuk sudut 1220, pada posisi tersebut melakukan fase awalan untuk melakukan persiapan gerakan follow throught. Pada fase pelaksanaan terdapat gaya memproduksi gerakan dengan sama yakni, bola di tempatkan didepan tubuh dengan kedua tangan, bagian tubuh ekstrimitas atas dan lengan mengarah ke atas dan kedepan hinga mencapai posisi vertikal.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.grey[800],
                         ),
                         textAlign: TextAlign.justify,
@@ -403,7 +431,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Pada gambar diatas menjelaskan bahwa telah berlaku Hukum Newton III, pelaksanaan fase awalan gerak passing chest pass pergelangan tangan membentuk sudut 900 untuk gerakan Follow Through dan kaki tumpu menekuk membentuk sudut 1360 dan kaki belakang membentuk sudut 1140, pada posisi tersebut melakukan fase awalan untuk melakukan persiapan gerakan selanjutnya. Pada saat rilis fase follow through juga melakukannya dengan gerakan yang tidak jauh berbeda yakni lengan, lutut kaki dan ekstrimitas atas sepenuhnya ekstensi yang menandakan sudah menyodorkan sebuah kontribusi penuh terhadap pelepasan bola, itulah kenapa harus membentuk sudut-sudut diatas karena Fase follow through pada dasarnya ialah merentangkan lengan dan pergelangan tangan sepenuhnya untuk menciptakan trajectory of the ball yang ideal.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.grey[800],
                         ),
                         textAlign: TextAlign.justify,
@@ -426,8 +454,9 @@ class _PBLScreenState extends State<PBLScreen> {
               title: Text(
                 'Frequently Asked Question',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
+                  fontSize: 14,
+                  color: Colors.blue[800],
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               children: [
@@ -439,7 +468,7 @@ class _PBLScreenState extends State<PBLScreen> {
                   child: Text(
                     'Silahkan kirimkan pertanyaan Anda berkaitan dengan chest pass dengan memasukkan pertanyaan pada kolom yang tersedia di bawah.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.grey[800],
                     ),
                     textAlign: TextAlign.justify,
@@ -471,7 +500,7 @@ class _PBLScreenState extends State<PBLScreen> {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      margin: EdgeInsets.only(left: 20),
+                      margin: EdgeInsets.symmetric(horizontal: 20),
                       child: ElevatedButton(
                         onPressed: () {
                           try {
@@ -480,6 +509,11 @@ class _PBLScreenState extends State<PBLScreen> {
                             print('Error sending email: $e\n$stackTrace');
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromRGBO(
+                              21, 101, 192, 1), // Background color
+                          onPrimary: Colors.white, // Text color
+                        ),
                         child: Text('Kirim Pertanyaan'),
                       ),
                     ),
@@ -493,9 +527,15 @@ class _PBLScreenState extends State<PBLScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void launchYoutubeVideoInApp() async {
+    const videoId = 'wxKr_O92wi4';
+    const youtubeUrl = 'https://www.youtube.com/watch?v=$videoId&t=0s&fs=1';
+
+    try {
+      await launch(youtubeUrl, forceSafariVC: false);
+    } catch (e) {
+      print('Error launching YouTube: $e');
+    }
   }
 
   void sendEmail(String question) async {
@@ -524,18 +564,16 @@ class PjBLScreen extends StatefulWidget {
 class _PjBLScreenState extends State<PjBLScreen> {
   TextEditingController _questionController2 = TextEditingController();
 
-  YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'MD4IX8_sgEQ', // Replace with your video ID
-    flags: YoutubePlayerFlags(
-      autoPlay: false,
-      mute: false,
-      forceHD: false,
-    ),
-  );
+  late WebViewController _webViewController;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -548,13 +586,13 @@ class _PjBLScreenState extends State<PjBLScreen> {
           child: Text(
             'Bounce Pass merupakan salah satu dari jenis passing dalam permainan bola basket. Berikut adalah informasi terkait bounce pass yang terdiri dari tahapan, analisis biomekanika dan video praktek bounce pass:',
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               color: Colors.grey[800],
             ),
             textAlign: TextAlign.justify,
           ),
         ),
-        SizedBox(height: 40),
+        SizedBox(height: 10),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 30),
           child: Theme(
@@ -566,9 +604,9 @@ class _PjBLScreenState extends State<PjBLScreen> {
               title: Text(
                 'Tahapan',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
-                ),
+                    fontSize: 14,
+                    color: Colors.blue[800],
+                    fontWeight: FontWeight.bold),
               ),
               children: [
                 Container(
@@ -581,7 +619,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                     '4) Sudut pantulan sama antara sudut datang dengan sudut pergi.\n'
                     '5) Bola hasil pantulan diterima pada ketinggian antara lutut dan pinggang.\n',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.grey[800],
                     ),
                   ),
@@ -601,20 +639,21 @@ class _PjBLScreenState extends State<PjBLScreen> {
               title: Text(
                 'Video Pelaksanaan',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
+                  fontSize: 14,
+                  color: Colors.blue[800],
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               children: [
                 //  Content for the second expansion tile
-                SizedBox(height: 30),
+                SizedBox(height: 10),
                 Container(
                   margin: EdgeInsets.symmetric(
                       horizontal: 20), // Adjust the horizontal margin as needed
                   child: Text(
                     'Silahkan putar video di bawah ini untuk membantu Anda memahami praktek bounce pass dalam permainan bola basket.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.grey[800],
                     ),
                     textAlign: TextAlign.justify,
@@ -624,21 +663,53 @@ class _PjBLScreenState extends State<PjBLScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: SizedBox(
+                    height: 160,
                     width: 300,
-                    child: YoutubePlayer(
-                      controller: YoutubePlayerController(
-                        initialVideoId:
-                            'MD4IX8_sgEQ', // Replace with your video ID
-                        flags: YoutubePlayerFlags(
-                          autoPlay: false,
-                          mute: false,
-                        ),
-                      ),
-                      showVideoProgressIndicator: true,
-                      progressIndicatorColor: Colors.blueAccent,
+                    child: WebView(
+                      initialUrl:
+                          'https://www.youtube.com/embed/O5n3x_xtK7k?playsinline=1',
+                      javascriptMode: JavascriptMode.unrestricted,
+                      onPageFinished: (url) {
+                        _webViewController.evaluateJavascript('''
+    // Hide controls except play, indicator, and progress bar
+    var controls = document.querySelector(".ytp-chrome-bottom");
+    if (controls != null) controls.style.display = "none";
+
+    var topBar = document.querySelector(".ytp-chrome-top");
+    if (topBar != null) topBar.style.display = "none";
+
+    var progressBar = document.querySelector(".ytp-progress-bar-container");
+    if (progressBar != null) progressBar.style.display = "block";
+
+    var logo = document.querySelector(".ytp-watermark");
+    if (logo != null) logo.style.display = "none"; // Hide YouTube logo
+
+    var fullscreenButton = document.querySelector(".ytp-fullscreen-button");
+    if (fullscreenButton != null) fullscreenButton.style.display = "none"; // Hide fullscreen button
+  ''');
+                      },
+                      onWebViewCreated: (controller) {
+                        _webViewController = controller;
+                      },
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    // Open video in fullscreen mode
+                    launchYoutubeVideoInApp();
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Color.fromRGBO(21, 101, 192, 1),
+                    ),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                  ),
+                  child: Text('Buka Fullscreen Video'),
+                ),
+                SizedBox(height: 10),
               ],
             ),
           ),
@@ -654,9 +725,9 @@ class _PjBLScreenState extends State<PjBLScreen> {
               title: Text(
                 'Analisis Biomekanika',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
-                ),
+                    fontSize: 14,
+                    color: Colors.blue[800],
+                    fontWeight: FontWeight.bold),
               ),
               children: [
                 Container(
@@ -672,7 +743,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Pada gambar diatas menjelaskan bahwa telah berlaku Hukum Newton I, pelaksanaan fase awalan gerak passing bounce pass lengan membentuk sudut 900 dan kaki menekuk membentuk sudut 1500, pada posisi tersebut melakukan fase awalan untuk melakukan persiapan gerakan selanjutnya. Kenapa harus mempunya sudut-sudut diatas karena dapat diketahui bahwa hasil analisis gerak kinetik yang ditinjau dari aspek biomekanik yakni sudut lengan dan sudut kaki secara langsung menyiapkan posisi kuda-kuda kaki dan memposisikan lengan tangan untuk menstabilkan ruang pergelangan tangan dan jari-jari agar tetap rileks, saat melakukan fase awalan adanya fleksi ekstrimitas atas dilakukan agar beban pada sendi mengurang dengan cara memperpendek lengan torsi. Sangat penting melakukan fleksi bagian ekstrimitas atas guna meningkatkan pembebanan kaki. Beban lebih ditingkatkan pada tubuh bagian bawah untuk mendekati pusat gravitasi. Posisi ini akan berguna untuk persiapan transfer gaya yang bekerja tetap linear dan vertikal sehingga gerakan menjadi optimal dan diterima dibagian fase gerakan selanjutnya.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.grey[800],
                         ),
                         textAlign: TextAlign.justify,
@@ -685,7 +756,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Pada gambar diatas menjelaskan bahwa pelaksanaan fase selanjutnya gerak passing bounce pass kaki tumpuan menekuk membentuk sudut 1720 pada posisi tersebut melakukan fase awalan untuk melakukan persiapan gerakan follow throught. Pada fase pelaksanaan terdapat gaya memproduksi gerakan dengan sama yakni, bola di tempatkan didepan tubuh dengan kedua tangan, bagian tubuh ekstrimitas atas dan lengan mengarah ke atas dan kedepan hinga mencapai posisi vertikal.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.grey[800],
                         ),
                         textAlign: TextAlign.justify,
@@ -699,7 +770,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Pada gambar diatas menjelaskan bahwa telah berlaku Hukum Newton III, pelaksanaan fase awalan gerak passing bounce pass pergelangan tangan membentuk sudut 900 untuk gerakan Follow Through dan kaki tumpu menekuk membentuk sudut 1440 dan kaki belakang membentuk sudut 1450, pada posisi tersebut melakukan fase awalan untuk melakukan persiapan gerakan selanjutnya. Pada saat rilis fase follow through juga melakukannya dengan gerakan yang tidak jauh berbeda yakni lengan, lutut kaki dan ekstrimitas atas sepenuhnya ekstensi yang menandakan sudah menyodorkan sebuah kontribusi penuh terhadap pelepasan bola, itulah kenapa harus membentuk sudut-sudut diatas karena Fase follow through pada dasarnya ialah merentangkan lengan dan pergelangan tangan sepenuhnya untuk menciptakan trajectory of the ball yang ideal.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.grey[800],
                         ),
                         textAlign: TextAlign.justify,
@@ -722,9 +793,9 @@ class _PjBLScreenState extends State<PjBLScreen> {
               title: Text(
                 'Frequently Asked Question',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
-                ),
+                    fontSize: 14,
+                    color: Colors.blue[800],
+                    fontWeight: FontWeight.bold),
               ),
               children: [
                 //  Content for the second expansion tile
@@ -735,7 +806,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                   child: Text(
                     'Silahkan kirimkan pertanyaan Anda berkaitan dengan bounce pass dengan memasukkan pertanyaan pada kolom yang tersedia di bawah.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.grey[800],
                     ),
                     textAlign: TextAlign.justify,
@@ -767,7 +838,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      margin: EdgeInsets.only(left: 20),
+                      margin: EdgeInsets.symmetric(horizontal: 20),
                       child: ElevatedButton(
                         onPressed: () {
                           try {
@@ -776,6 +847,11 @@ class _PjBLScreenState extends State<PjBLScreen> {
                             print('Error sending email: $e\n$stackTrace');
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromRGBO(
+                              21, 101, 192, 1), // Background color
+                          onPrimary: Colors.white, // Text color
+                        ),
                         child: Text('Kirim Pertanyaan'),
                       ),
                     ),
@@ -789,9 +865,15 @@ class _PjBLScreenState extends State<PjBLScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void launchYoutubeVideoInApp() async {
+    const videoId = 'O5n3x_xtK7k';
+    final youtubeUrl = 'https://www.youtube.com/watch?v=$videoId&t=0s&fs=1';
+
+    try {
+      await launch(youtubeUrl, forceSafariVC: false);
+    } catch (e) {
+      print('Error launching YouTube: $e');
+    }
   }
 
   void sendEmail(String question) async {
@@ -820,17 +902,16 @@ class AdditionalScreen extends StatefulWidget {
 class _AdditionalScreenState extends State<AdditionalScreen> {
   TextEditingController _questionController2 = TextEditingController();
 
-  YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'FBWYBH4bmgM', // Replace with your video ID
-    flags: YoutubePlayerFlags(
-      autoPlay: false,
-      mute: false,
-      forceHD: false,
-    ),
-  );
+  late WebViewController _webViewController;
+
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -849,7 +930,7 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
             textAlign: TextAlign.justify,
           ),
         ),
-        SizedBox(height: 40),
+        SizedBox(height: 10),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 30),
           child: Theme(
@@ -861,9 +942,9 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
               title: Text(
                 'Tahapan',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
-                ),
+                    fontSize: 14,
+                    color: Colors.blue[800],
+                    fontWeight: FontWeight.bold),
               ),
               children: [
                 Container(
@@ -874,7 +955,7 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
                     '2) Awalan lemparan bola ditarik kebelakang hingga diatas kepala kemudian tangan diluruskan kedepan atas diakhiri dengan lecutan pergelangan tangan sehingga jari-jari menghadap ke bawah.\n'
                     '3) Arah lemparan setinggi jangkauan tangan di atas kepala sampai ke bahu penerima.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.grey[800],
                     ),
                   ),
@@ -894,8 +975,9 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
               title: Text(
                 'Video Pelaksanaan',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
+                  fontSize: 14,
+                  color: Colors.blue[800],
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               children: [
@@ -907,7 +989,7 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
                   child: Text(
                     'Silahkan putar video di bawah ini untuk membantu Anda memahami praktek overhead pass dalam permainan bola basket.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.grey[800],
                     ),
                     textAlign: TextAlign.justify,
@@ -918,21 +1000,52 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: SizedBox(
                     width: 300,
-                    child: YoutubePlayer(
-                      controller: YoutubePlayerController(
-                        initialVideoId:
-                            'FBWYBH4bmgM', // Replace with your video ID
-                        flags: YoutubePlayerFlags(
-                          autoPlay: false,
-                          mute: false,
-                        ),
-                      ),
-                      showVideoProgressIndicator: true,
-                      progressIndicatorColor: Colors.blueAccent,
+                    height: 160,
+                    child: WebView(
+                      initialUrl:
+                          'https://www.youtube.com/embed/ggLydspx0k4?playsinline=1',
+                      javascriptMode: JavascriptMode.unrestricted,
+                      onPageFinished: (url) {
+                        _webViewController.evaluateJavascript('''
+    // Hide controls except play, indicator, and progress bar
+    var controls = document.querySelector(".ytp-chrome-bottom");
+    if (controls != null) controls.style.display = "none";
+
+    var topBar = document.querySelector(".ytp-chrome-top");
+    if (topBar != null) topBar.style.display = "none";
+
+    var progressBar = document.querySelector(".ytp-progress-bar-container");
+    if (progressBar != null) progressBar.style.display = "block";
+
+    var logo = document.querySelector(".ytp-watermark");
+    if (logo != null) logo.style.display = "none"; // Hide YouTube logo
+
+    var fullscreenButton = document.querySelector(".ytp-fullscreen-button");
+    if (fullscreenButton != null) fullscreenButton.style.display = "none"; // Hide fullscreen button
+  ''');
+                      },
+                      onWebViewCreated: (controller) {
+                        _webViewController = controller;
+                      },
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    // Open video in fullscreen mode
+                    launchYoutubeVideoInApp();
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Color.fromRGBO(21, 101, 192, 1),
+                    ),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                  ),
+                  child: Text('Buka Fullscreen Video'),
+                ),
+                SizedBox(height: 10),
               ],
             ),
           ),
@@ -948,8 +1061,9 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
               title: Text(
                 'Analisis Biomekanika',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
+                  fontSize: 14,
+                  color: Colors.blue[800],
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               children: [
@@ -966,7 +1080,7 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
                       Text(
                         'Pada gambar diatas menjelaskan bahwa telah berlaku Hukum Newton I, pelaksanaan fase awalan gerak passing overhead pass lengan membentuk sudut 900 dan kaki menekuk membentuk sudut 1270, pada posisi tersebut melakukan fase awalan untuk melakukan persiapan gerakan selanjutnya. Kenapa harus mempunya sudut-sudut diatas karena dapat diketahui bahwa hasil analisis gerak kinetik yang ditinjau dari aspek biomekanik yakni sudut lengan, sudut tubuh dan sudut kaki secara langsung menyiapkan posisi kuda-kuda kaki dan memposisikan lengan tangan untuk menstabilkan ruang pergelangan tangan dan jari-jari agar tetap rileks, saat melakukan fase awalan adanya fleksi ekstrimitas atas dilakukan agar beban pada sendi mengurang dengan cara memperpendek lengan torsi. Sangat penting melakukan fleksi bagian ekstrimitas atas guna meningkatkan pembebanan kaki. Beban lebih ditingkatkan pada tubuh bagian bawah untuk mendekati pusat gravitasi. Posisi ini akan berguna untuk persiapan transfer gaya yang bekerja tetap linear dan vertikal sehingga gerakan menjadi optimal dan diterima dibagian fase gerakan selanjutnya.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.grey[800],
                         ),
                         textAlign: TextAlign.justify,
@@ -979,7 +1093,7 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
                       Text(
                         'Pada gambar diatas menjelaskan bahwa pelaksanaan fase selanjutnya gerak passing overhead pass lengan membentuk sudut 800, kaki tumpuan menekuk membentuk sudut 1290 dan kaki belakang membentuk sudut 1400 pada posisi tersebut melakukan fase awalan untuk melakukan persiapan gerakan follow throught. Pada fase pelaksanaan terdapat gaya memproduksi gerakan dengan sama yakni, bola di tempatkan didepan tubuh dengan kedua tangan, bagian tubuh ekstrimitas atas dan lengan mengarah ke atas dan kedepan hinga mencapai posisi vertikal.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.grey[800],
                         ),
                         textAlign: TextAlign.justify,
@@ -993,7 +1107,7 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
                       Text(
                         'Pada gambar diatas menjelaskan bahwa telah berlaku Hukum Newton III, pelaksanaan fase awalan gerak passing overhead pass pergelangan tangan membentuk sudut 900 untuk gerakan Follow Through dan kaki tumpu menekuk membentuk sudut 1410 dan kaki belakang membentuk sudut 900 dari lantai, pada posisi tersebut melakukan fase awalan untuk melakukan persiapan gerakan selanjutnya. Pada saat rilis fase follow through juga melakukannya dengan gerakan yang tidak jauh berbeda yakni lengan, lutut kaki dan ekstrimitas atas sepenuhnya ekstensi yang menandakan sudah menyodorkan sebuah kontribusi penuh terhadap pelepasan bola, itulah kenapa harus membentuk sudut-sudut diatas karena Fase follow through pada dasarnya ialah merentangkan lengan dan pergelangan tangan sepenuhnya untuk menciptakan trajectory of the ball yang ideal.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Colors.grey[800],
                         ),
                         textAlign: TextAlign.justify,
@@ -1016,8 +1130,9 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
               title: Text(
                 'Frequently Asked Question',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey[800],
+                  fontSize: 14,
+                  color: Colors.blue[800],
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               children: [
@@ -1029,7 +1144,7 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
                   child: Text(
                     'Silahkan kirimkan pertanyaan Anda berkaitan dengan overhead pass dengan memasukkan pertanyaan pada kolom yang tersedia di bawah.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.grey[800],
                     ),
                     textAlign: TextAlign.justify,
@@ -1061,7 +1176,7 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      margin: EdgeInsets.only(left: 20),
+                      margin: EdgeInsets.symmetric(horizontal: 20),
                       child: ElevatedButton(
                         onPressed: () {
                           try {
@@ -1070,6 +1185,11 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
                             print('Error sending email: $e\n$stackTrace');
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromRGBO(
+                              21, 101, 192, 1), // Background color
+                          onPrimary: Colors.white, // Text color
+                        ),
                         child: Text('Kirim Pertanyaan'),
                       ),
                     ),
@@ -1083,9 +1203,15 @@ class _AdditionalScreenState extends State<AdditionalScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void launchYoutubeVideoInApp() async {
+    const videoId = 'ggLydspx0k4';
+    const youtubeUrl = 'https://www.youtube.com/watch?v=$videoId&t=0s&fs=1';
+
+    try {
+      await launch(youtubeUrl, forceSafariVC: false);
+    } catch (e) {
+      print('Error launching YouTube: $e');
+    }
   }
 
   void sendEmail(String question) async {

@@ -43,7 +43,7 @@ class _DrhScreenState extends State<DrhScreen> {
             fontSize: 18,
           ),
         ),
-        backgroundColor: Color(0xFF57CCE6),
+        backgroundColor: Color.fromARGB(255, 66, 176, 201),
         iconTheme: IconThemeData(color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -57,7 +57,7 @@ class _DrhScreenState extends State<DrhScreen> {
         child: _screens[_currentIndex],
       ),
       bottomNavigationBar: Container(
-        color: Color(0xFF57CCE6),
+        color: Color.fromARGB(255, 66, 176, 201),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -222,7 +222,7 @@ class PembelajaranContentScreen extends StatelessWidget {
                   Text(
                     'Benny Aprial, M.S.Pd., M.Pd., adalah seorang profesional yang berdedikasi dan berprestasi dalam bidang pendidikan olahraga. Lahir pada 25 April 1992, di Tanjung Balai, perjalanan akademis Benny mencerminkan ketertarikannya terhadap Pendidikan Olahraga. Saat ini, ia mengemban peran sebagai dosen di Sekolah Tinggi Olahraga Dan Kesehatan Bina Guna, di mana kontribusinya diakui dan dihargai. Bekerja di lingkungan akademis, Benny telah membawa pengalaman dan pengetahuannya ke dalam ruang kelas, membimbing dan menginspirasi para mahasiswa di bidang Pendidikan Jasmani Kesehatan Dan Rekreasi. Selain mengajar, ia juga terlibat aktif dalam kegiatan penelitian yang mendalam, mengeksplorasi inovasi dalam metode pengajaran olahraga. Perjalanan akademisnya dimulai di Universitas Negeri Medan, di mana ia mengejar gelar Sarjana dalam Pendidikan Jasmani Kesehatan Dan Rekreasi, lulus pada tahun 2014. Selanjutnya, ia terus meningkatkan pengetahuannya di Universitas Negeri Jakarta, memperoleh gelar Magister dalam Pendidikan Olahraga pada tahun 2018. Keahlian Benny tidak hanya terbatas pada ruang kelas, tetapi juga tercermin dalam keterlibatannya dalam pengembangan pendidikan olahraga di tingkat perguruan tinggi. Sebagai bagian dari Sekolah Tinggi Olahraga Dan Kesehatan Bina Guna, Benny Aprial menjadi salah satu pilar dalam membentuk masa depan pendidikan olahraga yang inovatif dan berkualitas.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                       color: Colors.grey[800],
                     ),
                     textAlign: TextAlign.justify,

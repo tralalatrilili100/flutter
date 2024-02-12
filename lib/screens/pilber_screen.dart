@@ -4,7 +4,6 @@ import 'package:basketapp/screens/drh_screen.dart';
 import 'package:basketapp/screens/home_screen.dart';
 import 'package:basketapp/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 void main() {
@@ -46,7 +45,8 @@ class _PilberScreenState extends State<PilberScreen> {
             fontSize: 18,
           ),
         ),
-        backgroundColor: Color(0xFF57CCE6), // Set the background color here
+        backgroundColor:
+            Color.fromARGB(255, 66, 176, 201), // Set the background color here
         iconTheme: IconThemeData(color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -57,7 +57,7 @@ class _PilberScreenState extends State<PilberScreen> {
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: Container(
-        color: Color(0xFF57CCE6),
+        color: Color.fromARGB(255, 66, 176, 201),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -179,9 +179,9 @@ class PembelajaranContentScreen extends StatelessWidget {
                 await _launchURL(url);
               },
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                backgroundColor:
-                    Color(0xFF57CCE6), // Custom color color: Color,
+                padding: EdgeInsets.symmetric(vertical: 10),
+                backgroundColor: Color.fromRGBO(
+                    21, 101, 192, 1), // Custom color color: Color,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.horizontal(
                     left: Radius.circular(30),

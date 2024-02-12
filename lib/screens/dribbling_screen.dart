@@ -5,7 +5,7 @@ import 'package:basketapp/screens/drh_screen.dart';
 import 'package:basketapp/screens/home_screen.dart';
 import 'package:basketapp/screens/welcome_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
   runApp(MyApp());
@@ -55,7 +55,8 @@ class _DribblingScreenState extends State<DribblingScreen>
             fontSize: 18,
           ),
         ),
-        backgroundColor: Color(0xFF57CCE6), // Set the background color here
+        backgroundColor:
+            Color.fromARGB(255, 66, 176, 201), // Set the background color here
         iconTheme: IconThemeData(color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -91,12 +92,13 @@ class _DribblingScreenState extends State<DribblingScreen>
               indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 5,
-              labelColor: Colors.blue,
+              labelColor: Colors.blue[800],
               unselectedLabelColor: Colors.grey[600],
               labelStyle: TextStyle(
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: FontWeight.bold,
               ),
+              indicatorColor: Colors.blue[400],
             ),
             Expanded(
               child: TabBarView(
@@ -113,7 +115,7 @@ class _DribblingScreenState extends State<DribblingScreen>
         ),
       ),
       bottomNavigationBar: Container(
-        color: Color(0xFF57CCE6),
+        color: Color.fromARGB(255, 66, 176, 201),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -322,14 +324,17 @@ class PjBLScreen extends StatefulWidget {
 }
 
 class _PjBLScreenState extends State<PjBLScreen> {
-  YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'af06KUNy80M', // Replace with your video ID
-    flags: YoutubePlayerFlags(
-      autoPlay: false,
-      mute: false,
-      forceHD: false,
-    ),
-  );
+  late WebViewController _webViewController;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -337,7 +342,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
       children: [
         SizedBox(height: 10),
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 30),
+          margin: EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
               // Content for the second expansion tile
@@ -354,26 +359,69 @@ class _PjBLScreenState extends State<PjBLScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: SizedBox(
-                  width: 300,
-                  child: YoutubePlayer(
-                    controller: YoutubePlayerController(
-                      initialVideoId:
-                          'af06KUNy80M', // Replace with your video ID
-                      flags: YoutubePlayerFlags(
-                        autoPlay: false,
-                        mute: false,
-                      ),
-                    ),
-                    showVideoProgressIndicator: true,
-                    progressIndicatorColor: Colors.blueAccent,
+                  width: 500,
+                  height: 170,
+                  child: WebView(
+                    initialUrl:
+                        'https://www.youtube.com/embed/mcrKaLfXqjk?playsinline=1',
+                    javascriptMode: JavascriptMode.unrestricted,
+                    onPageFinished: (url) {
+                      _webViewController.evaluateJavascript('''
+    // Hide controls except play, indicator, and progress bar
+    var controls = document.querySelector(".ytp-chrome-bottom");
+    if (controls != null) controls.style.display = "none";
+
+    var topBar = document.querySelector(".ytp-chrome-top");
+    if (topBar != null) topBar.style.display = "none";
+
+    var progressBar = document.querySelector(".ytp-progress-bar-container");
+    if (progressBar != null) progressBar.style.display = "block";
+
+    var logo = document.querySelector(".ytp-watermark");
+    if (logo != null) logo.style.display = "none"; // Hide YouTube logo
+
+    var fullscreenButton = document.querySelector(".ytp-fullscreen-button");
+    if (fullscreenButton != null) fullscreenButton.style.display = "none"; // Hide fullscreen button
+  ''');
+                    },
+                    onWebViewCreated: (controller) {
+                      _webViewController = controller;
+                    },
                   ),
                 ),
-              )
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  // Open video in fullscreen mode
+                  launchYoutubeVideoInApp();
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromRGBO(21, 101, 192, 1),
+                  ),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                ),
+                child: Text('Buka Fullscreen Video'),
+              ),
+              SizedBox(height: 10),
             ],
           ),
         ),
       ],
     );
+  }
+
+  void launchYoutubeVideoInApp() async {
+    const videoId = 'mcrKaLfXqjk';
+    const youtubeUrl = 'https://www.youtube.com/watch?v=$videoId&t=0s&fs=1';
+
+    try {
+      await launch(youtubeUrl, forceSafariVC: false);
+    } catch (e) {
+      print('Error launching YouTube: $e');
+    }
   }
 }
 
@@ -414,7 +462,7 @@ class _AdditionalScreenState2 extends State<AdditionalScreen2> {
               child: Text(
                 'Pertanyaan Anda:',
                 style: TextStyle(
-                    color: Colors.blue[600], fontWeight: FontWeight.bold),
+                    color: Colors.blue[800], fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
             ),
@@ -440,12 +488,15 @@ class _AdditionalScreenState2 extends State<AdditionalScreen2> {
                     print('Error sending email: $e\n$stackTrace');
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(21, 101, 192, 1), // Background color
+                  onPrimary: Colors.white, // Text color
+                ),
                 child: Text('Kirim Pertanyaan'),
               ),
             ),
           ],
         ),
-        SizedBox(height: 25),
       ],
     );
   }

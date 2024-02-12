@@ -5,7 +5,7 @@ import 'package:basketapp/screens/drh_screen.dart';
 import 'package:basketapp/screens/home_screen.dart';
 import 'package:basketapp/screens/welcome_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
   runApp(MyApp());
@@ -55,7 +55,8 @@ class _PembelajaranScreenState extends State<PembelajaranScreen>
             fontSize: 18,
           ),
         ),
-        backgroundColor: Color(0xFF57CCE6), // Set the background color here
+        backgroundColor:
+            Color.fromARGB(255, 66, 176, 201), // Set the background color here
         iconTheme: IconThemeData(color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -78,12 +79,13 @@ class _PembelajaranScreenState extends State<PembelajaranScreen>
               Tab(text: 'PBL'),
               Tab(text: 'PjBL'),
             ],
-            labelColor: Colors.blue,
+            labelColor: Colors.blue[800],
             unselectedLabelColor: Colors.grey[600],
             labelStyle: TextStyle(
               fontSize: 16, // Adjust the font size as needed
               fontWeight: FontWeight.bold,
             ),
+            indicatorColor: Colors.blue[400],
           ),
           SizedBox(height: 30),
           Expanded(
@@ -98,7 +100,7 @@ class _PembelajaranScreenState extends State<PembelajaranScreen>
         ],
       ),
       bottomNavigationBar: Container(
-        color: Color(0xFF57CCE6),
+        color: Color.fromARGB(255, 66, 176, 201),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -174,15 +176,17 @@ class PBLScreen extends StatefulWidget {
 
 class _PBLScreenState extends State<PBLScreen> {
   TextEditingController _questionController = TextEditingController();
+  late WebViewController _webViewController;
 
-  YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'oxG4H3sifGI', // Replace with your video ID
-    flags: YoutubePlayerFlags(
-      autoPlay: false,
-      mute: false,
-      forceHD: false,
-    ),
-  );
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +198,7 @@ class _PBLScreenState extends State<PBLScreen> {
           child: Text(
             'Selamat datang di strategi pembelajaran Problem Based Learning (PBL). PBL terdiri dari tiga tahapan: Pendahuluan, Penyajian dan Penutupan. Setiap tahapan terdiri dari uraian kegiatan pembelajaran, metode dan alat pembelajaran dan estimasi waktu',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               color: Colors.grey[800],
             ),
             textAlign: TextAlign.justify,
@@ -215,11 +219,13 @@ class _PBLScreenState extends State<PBLScreen> {
                 value: 0,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
                       'Pendahuluan',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -231,7 +237,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Uraian Kegiatan Pembelajaran',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -246,7 +252,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Metode Pembelajaran, Media Pembelajaran, dan Alat',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -260,7 +266,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Estimasi Waktu',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -278,11 +284,13 @@ class _PBLScreenState extends State<PBLScreen> {
                 value: 1,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
                       'Penyajian (Inti)',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -294,7 +302,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Uraian Kegiatan Pembelajaran',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -308,7 +316,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Metode Pembelajaran, Media Pembelajaran, dan Alat',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -322,7 +330,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Estimasi Waktu',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -340,11 +348,13 @@ class _PBLScreenState extends State<PBLScreen> {
                 value: 2,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
                       'Penutup dan Tindak Lanjut',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -356,7 +366,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Uraian Kegiatan Pembelajaran',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -365,12 +375,12 @@ class _PBLScreenState extends State<PBLScreen> {
                         '• Simpulan \n'
                         '• Memberikan umpan balik\n'
                         '• Menjelaskan tindak lanjut\n',
-                        style: TextStyle(color: Colors.grey[700]),
+                        style: TextStyle(color: Colors.grey[600]),
                       ),
                       Text(
                         'Metode Pembelajaran, Media Pembelajaran, dan Alat',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -384,7 +394,7 @@ class _PBLScreenState extends State<PBLScreen> {
                       Text(
                         'Estimasi Waktu',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -402,11 +412,13 @@ class _PBLScreenState extends State<PBLScreen> {
                 value: 3,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
                       'Frequently Asked Question (FAQ)',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -428,7 +440,7 @@ class _PBLScreenState extends State<PBLScreen> {
                             child: Text(
                               'Pertanyaan Anda:',
                               style: TextStyle(
-                                  color: Colors.blue[600],
+                                  color: Colors.blue[800],
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -468,11 +480,13 @@ class _PBLScreenState extends State<PBLScreen> {
                 value: 4,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
-                      'Video',
+                      'Video Pelaksanaan',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: const Color.fromRGBO(21, 101, 192, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -488,21 +502,58 @@ class _PBLScreenState extends State<PBLScreen> {
                       ),
                       SizedBox(height: 20),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: SizedBox(
-                          width: 300,
-                          child: YoutubePlayer(
-                            controller: YoutubePlayerController(
-                              initialVideoId:
-                                  'oxG4H3sifGI', // Replace with your video ID
-                              flags: YoutubePlayerFlags(
-                                autoPlay: false,
-                                mute: false,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 160,
+                              width: 300, // Adjust the height as needed
+                              child: WebView(
+                                initialUrl:
+                                    'https://www.youtube.com/embed/KNQ25Y6d3Xo?playsinline=1',
+                                javascriptMode: JavascriptMode.unrestricted,
+                                onPageFinished: (url) {
+                                  _webViewController.evaluateJavascript('''
+    // Hide controls except play, indicator, and progress bar
+    var controls = document.querySelector(".ytp-chrome-bottom");
+    if (controls != null) controls.style.display = "none";
+
+    var topBar = document.querySelector(".ytp-chrome-top");
+    if (topBar != null) topBar.style.display = "none";
+
+    var progressBar = document.querySelector(".ytp-progress-bar-container");
+    if (progressBar != null) progressBar.style.display = "block";
+
+    var logo = document.querySelector(".ytp-watermark");
+    if (logo != null) logo.style.display = "none"; // Hide YouTube logo
+
+    var fullscreenButton = document.querySelector(".ytp-fullscreen-button");
+    if (fullscreenButton != null) fullscreenButton.style.display = "none"; // Hide fullscreen button
+  ''');
+                                },
+                                onWebViewCreated: (controller) {
+                                  _webViewController = controller;
+                                },
                               ),
                             ),
-                            showVideoProgressIndicator: true,
-                            progressIndicatorColor: Colors.blueAccent,
-                          ),
+                            SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () {
+                                // Open video in fullscreen mode
+                                launchYoutubeVideoInApp();
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Color.fromRGBO(21, 101, 192, 1),
+                                ),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.white),
+                              ),
+                              child: Text('Buka Fullscreen Video'),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -537,6 +588,17 @@ class _PBLScreenState extends State<PBLScreen> {
       print('Error launching email: $e');
     }
   }
+
+  void launchYoutubeVideoInApp() async {
+    final videoId = 'KNQ25Y6d3Xo';
+    final youtubeUrl = 'https://www.youtube.com/watch?v=$videoId&t=0s&fs=1';
+
+    try {
+      await launch(youtubeUrl, forceSafariVC: false);
+    } catch (e) {
+      print('Error launching YouTube: $e');
+    }
+  }
 }
 
 class PjBLScreen extends StatefulWidget {
@@ -546,15 +608,17 @@ class PjBLScreen extends StatefulWidget {
 
 class _PjBLScreenState extends State<PjBLScreen> {
   TextEditingController _questionController2 = TextEditingController();
+  late WebViewController _webViewController;
 
-  YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'wXkk3CRjll8', // Replace with your video ID
-    flags: YoutubePlayerFlags(
-      autoPlay: false,
-      mute: false,
-      forceHD: false,
-    ),
-  );
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -566,7 +630,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
           child: Text(
             'Selamat datang di strategi pembelajaran Project Based Learning (PjBL). PjBL terdiri dari tiga tahapan di bawah ini. Setiap tahapan terdiri dari uraian kegiatan pembelajaran, metode dan alat pembelajaran dan estimasi waktu',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               color: Colors.grey[800],
             ),
             textAlign: TextAlign.justify,
@@ -587,11 +651,13 @@ class _PjBLScreenState extends State<PjBLScreen> {
                 value: 0,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
                       'Pendahuluan',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -603,7 +669,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Uraian Kegiatan Pembelajaran',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -619,7 +685,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Metode Pembelajaran, Media Pembelajaran, dan Alat',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -634,7 +700,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Estimasi Waktu',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -652,11 +718,13 @@ class _PjBLScreenState extends State<PjBLScreen> {
                 value: 1,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
                       'Penyajian (Inti)',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -668,7 +736,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Uraian Kegiatan Pembelajaran',
                         style: TextStyle(
-                          color: Colors.blue[700],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -683,7 +751,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Metode Pembelajaran, Media Pembelajaran, dan Alat',
                         style: TextStyle(
-                          color: Colors.blue[700],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -698,7 +766,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Estimasi Waktu',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -716,11 +784,13 @@ class _PjBLScreenState extends State<PjBLScreen> {
                 value: 2,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
                       'Penutup dan Tindak Lanjut',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -732,7 +802,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Uraian Kegiatan Pembelajaran',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -746,7 +816,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Metode Pembelajaran, Media Pembelajaran, dan Alat',
                         style: TextStyle(
-                          color: Colors.blue[600],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -761,7 +831,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       Text(
                         'Estimasi Waktu',
                         style: TextStyle(
-                          color: Colors.blue[700],
+                          color: Colors.blue[800],
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -779,11 +849,13 @@ class _PjBLScreenState extends State<PjBLScreen> {
                 value: 3,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
                       'Frequently Asked Question (FAQ)',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -805,7 +877,7 @@ class _PjBLScreenState extends State<PjBLScreen> {
                             child: Text(
                               'Pertanyaan Anda:',
                               style: TextStyle(
-                                  color: Colors.blue[600],
+                                  color: Colors.blue[800],
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -845,11 +917,13 @@ class _PjBLScreenState extends State<PjBLScreen> {
                 value: 4,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.inventory_outlined, size: 40),
+                    leading: Icon(Icons.inventory_outlined, size: 25),
                     title: Text(
-                      'Video',
+                      'Video Pelaksanaan',
                       style: TextStyle(
-                          color: Colors.blue[700], fontWeight: FontWeight.bold),
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                   );
                 },
@@ -865,23 +939,60 @@ class _PjBLScreenState extends State<PjBLScreen> {
                       ),
                       SizedBox(height: 20),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: SizedBox(
-                          width: 300,
-                          child: YoutubePlayer(
-                            controller: YoutubePlayerController(
-                              initialVideoId:
-                                  'wXkk3CRjll8', // Replace with your video ID
-                              flags: YoutubePlayerFlags(
-                                autoPlay: false,
-                                mute: false,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 170,
+                              width: 300, // Adjust the height as needed
+                              child: WebView(
+                                initialUrl:
+                                    'https://www.youtube.com/embed/mzNAnBW1x50?playsinline=1',
+                                javascriptMode: JavascriptMode.unrestricted,
+                                onPageFinished: (url) {
+                                  _webViewController.evaluateJavascript('''
+    // Hide controls except play, indicator, and progress bar
+    var controls = document.querySelector(".ytp-chrome-bottom");
+    if (controls != null) controls.style.display = "none";
+
+    var topBar = document.querySelector(".ytp-chrome-top");
+    if (topBar != null) topBar.style.display = "none";
+
+    var progressBar = document.querySelector(".ytp-progress-bar-container");
+    if (progressBar != null) progressBar.style.display = "block";
+
+    var logo = document.querySelector(".ytp-watermark");
+    if (logo != null) logo.style.display = "none"; // Hide YouTube logo
+
+    var fullscreenButton = document.querySelector(".ytp-fullscreen-button");
+    if (fullscreenButton != null) fullscreenButton.style.display = "none"; // Hide fullscreen button
+  ''');
+                                },
+                                onWebViewCreated: (controller) {
+                                  _webViewController = controller;
+                                },
                               ),
                             ),
-                            showVideoProgressIndicator: true,
-                            progressIndicatorColor: Colors.blueAccent,
-                          ),
+                            SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () {
+                                // Open video in fullscreen mode
+                                launchYoutubeVideoInApp();
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Color.fromRGBO(21, 101, 192, 1),
+                                ),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.white),
+                              ),
+                              child: Text('Buka Fullscreen Video'),
+                            ),
+                          ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -896,6 +1007,17 @@ class _PjBLScreenState extends State<PjBLScreen> {
         ),
       ],
     );
+  }
+
+  void launchYoutubeVideoInApp() async {
+    final videoId = 'mzNAnBW1x50';
+    final youtubeUrl = 'https://www.youtube.com/watch?v=$videoId&t=0s&fs=1';
+
+    try {
+      await launch(youtubeUrl, forceSafariVC: false);
+    } catch (e) {
+      print('Error launching YouTube: $e');
+    }
   }
 
   void sendEmail(String question) async {

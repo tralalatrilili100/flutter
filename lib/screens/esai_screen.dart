@@ -45,7 +45,8 @@ class _EsaiScreenState extends State<EsaiScreen> {
             fontSize: 18,
           ),
         ),
-        backgroundColor: Color(0xFF57CCE6), // Set the background color here
+        backgroundColor:
+            Color.fromARGB(255, 66, 176, 201), // Set the background color here
         iconTheme: IconThemeData(color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -56,7 +57,7 @@ class _EsaiScreenState extends State<EsaiScreen> {
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: Container(
-        color: Color(0xFF57CCE6),
+        color: Color.fromARGB(255, 66, 176, 201),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -170,15 +171,17 @@ class PembelajaranContentScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: SizedBox(
-            width: 250, // Adjust the width as needed
+            width: 200, // Adjust the width as needed
             child: ElevatedButton(
               onPressed: () async {
                 const url = 'https://bit.ly/materibola_basket';
                 await _launchURL(url);
               },
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                backgroundColor: Color(0xFF57CCE6), // Custom color
+                padding: EdgeInsets.symmetric(
+                    vertical: 10), // Adjust the vertical padding here
+                backgroundColor:
+                    Color.fromRGBO(21, 101, 192, 1), // Custom color
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.horizontal(
                     left: Radius.circular(30),

@@ -56,7 +56,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 5), // Add spacing between text and button
                 Material(
-                  color: Color(0xFF57CCE6),
+                  color: Color.fromRGBO(21, 101, 192, 1),
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
                     onTap: () {

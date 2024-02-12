@@ -31,16 +31,10 @@ class _HomePageState extends State<HomePage> {
         'Teknik Dasar Shooting',
         'Teknik dasar dalam menembak bola dalam permainan bola basket',
         'shooting_screen'),
-    MenuData(
-        'images/mcq_image.png',
-        'Tes Pilihan Berganda',
-        'Tes dalam bentuk pilihan berganda untuk memperdalam pengetahuan tentang bola basket',
-        'pilber_screen'),
-    MenuData(
-        'images/essay_image.png',
-        'Tes Esai',
-        'Tes dalam bentuk esai untuk memperdalam pengetahuan tentang bola basket',
-        'esai_screen'),
+    MenuData('images/mcq_image.png', 'Tes Pilihan Berganda',
+        'Tes pilihan berganda tentang teknik bola basket', 'pilber_screen'),
+    MenuData('images/essay_image.png', 'Tes Esai',
+        'Tes esai tentang teknik bola basket', 'esai_screen'),
     MenuData('images/cv_image.png', 'Daftar Riwayat Hidup',
         'Biografi singkat dari peneliti', 'drh_screen'),
   ];
@@ -57,7 +51,8 @@ class _HomePageState extends State<HomePage> {
             fontSize: 18,
           ),
         ),
-        backgroundColor: Color(0xFF57CCE6), // Set the background color here
+        backgroundColor:
+            Color.fromARGB(255, 66, 176, 201), // Set the background color here
         iconTheme: IconThemeData(color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -107,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(
-                                right: 10), // Adjust the value as needed
+                                right: 20), // Adjust the value as needed
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,15 +111,15 @@ class _HomePageState extends State<HomePage> {
                                   menus[index].title,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Colors.blueGrey[700],
+                                    fontSize: 16,
+                                    color: Colors.blue[800],
                                   ),
                                 ),
                                 SizedBox(height: 8),
                                 Text(
                                   menus[index].description,
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -142,7 +137,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: Color(0xFF57CCE6), // Set the background color here
+        color:
+            Color.fromARGB(255, 66, 176, 201), // Set the background color here
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
